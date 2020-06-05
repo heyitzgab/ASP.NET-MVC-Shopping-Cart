@@ -1,0 +1,158 @@
+﻿@using ClothesLine.Models;
+@model IEnumerable<ClothesLine.Models.Product>
+
+@{
+    ViewBag.Title = "Gallery";
+    //List<Product> product = ViewBag.productList;
+    var username = ViewBag.username;   
+    var count =ViewBag.count;
+    //need to calculate how to get the number of item that the customer add to cart
+    var found = false;//found or not that the product that we want to search
+                      //var productList = ViewBag.productList as ICollection<Product>; //the productLsit that match with searchStr
+    string searchStr = (string)ViewBag.searchString;
+}
+
+   @* <script type="text/javascript">
+var count ='@Model.Count()';
+    </script>*@
+    <form method="post" class="form-horizontal">
+        <table width="800">
+            <tr>
+                <td>
+                    Hello,@username
+
+                </td>
+                <td align="right">
+                    @Html.ActionLink("MyPurchases", "MyPurchases", "Home")
+                    @Html.ActionLink("Logout", "Logout", "Home")
+
+                </td>
+                <td align="right">
+                  @*  <a href="~/Views/Cart.cshtml">
+                        <img src="~/Images/shoppingCart.jpg" height="50" width="50" />
+                    </a>
+                      *@
+                    <a href="@Url.Action("Cart","Home")" title="List View" class="links">
+                        <img src="~/Images/shoppingCart.jpg" height="50" width="50" />
+                    </a>
+                    <span class="badge">@count </span>
+
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" width="700" align="center">
+                    <input id="searchBox" value="@searchStr" />
+                </td>
+            </tr>
+
+            @foreach (var p in ViewBag.productList)
+            {
+                var hit = false;
+                SearchResult sr = Find(p.ProductName, searchStr);
+                string productName = sr.str;
+                if (sr.found)
+                {
+                    hit = true;
+                }
+                sr = Find(p.Brand, searchStr);
+                string brand = sr.str;
+                if (sr.found)
+                {
+                    hit = true;
+                }
+                if (searchStr == "" || hit)
+                {
+                <tr>
+                    <td>
+                        @p.Picture
+                        <br />
+                        @p.ProductName
+                        <br />
+                        @p.Description
+                        <p>
+                            <button type="submit" style="height:50px;width:200px" formaction="AddToCart?productId=@p.Id&quantity=1">
+                                @p.UnitPrice - Add To Cart
+                            </button>
+                        </p>
+                    </td>
+                </tr>        
+                    found = true;
+                }
+            }
+            @if (!found)
+            {
+                <tr>
+                    <td colspan="3" style=" text-align: center">
+                        There are no matches for your search.
+                    </td>
+                </tr>
+            }
+
+        </table>
+        </form>
+        @functions{
+            public class SearchResult
+            {
+                public bool found = false;
+                public string str = "";
+            }
+            public SearchResult Find(string hay, string needle)
+            {
+                string str = hay;
+                int start = hay.IndexOf(needle, StringComparison.CurrentCultureIgnoreCase);
+                if (start != -1)
+                {
+                    return new SearchResult
+                    {
+                        found = (start != -1),
+                        str = str
+                    };
+                }
+                return new SearchResult { found = false };
+            }
+        }
+
+        <style>
+            th, td {
+                padding: 3px;
+            }
+
+            input {
+                border: none;
+                padding: 10px;
+                margin: 10px;
+                height: 20px;
+                width: 1000px;
+                border: 1px solid #eaeaea;
+                outline: none;
+            }
+
+                input:hover {
+                    border-color: #a0a0a0 #b9b9b9 #b9b9b9 #b9b9b9;
+                }
+
+                input:focus {
+                    border-color: #4d90fe;
+                }
+
+                input[type="submit"] {
+                    border-radius: 2px;
+                    background: #f2f2f2;
+                    border: 1px solid #f2f2f2;
+                    color: #757575;
+                    cursor: default;
+                    font-size: 14px;
+                    font-weight: bold;
+                    width: 100px;
+                    padding: 0 16px;
+                    height: 36px;
+                }
+
+                    input[type="submit"]:hover {
+                        box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+                        background: #f8f8f8;
+                        border: 1px solid #c6c6c6;
+                        box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+                        color: #222;
+                    }
+        </style>

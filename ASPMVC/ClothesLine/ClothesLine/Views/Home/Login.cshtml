@@ -1,0 +1,96 @@
+﻿@model ClothesLine.Models.Customer
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <style>
+        #login-div {
+            position: absolute;
+            left: 40%;
+            top: 20%;
+            /*border: 1px solid #ccc;*/
+            padding: 10px 10px;
+        }
+        #loginfoot-div{
+            position: absolute;
+            left: 42.5%;
+            bottom: 5%;
+            padding: 10px 10px;
+        }
+
+        .field-validation-error {
+            color: red
+        }        
+    </style>
+</head>
+<body>  
+    <center><h1>Welcome to ClothesLine Online store!</h1></center>
+    <center><h3>Please login to start shopping</h3></center>
+
+    <div class="container">
+        <div id="login-div">
+            @using (Html.BeginForm("Authorize", "Login", FormMethod.Post))
+            {
+                <table>
+                    <tr>
+                        <td></td>
+                        <td style="text-decoration:solid">Please enter your login details</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.Email)
+                        </td>
+                        <td>
+                            @Html.EditorFor(model => model.Email)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>@Html.ValidationMessageFor(model => model.Email)</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.Password)
+                        </td>
+                        <td>
+                            @Html.EditorFor(model => model.Password)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>@Html.ValidationMessageFor(model => model.Password)</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <label class="field-validation-error">@Html.DisplayFor(model => model.LoginErrorMessage)</label>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input type="submit" name="name" value="Login" class="form-control" />
+                            <input type="reset" name="name" value="Clear" class="form-control" />
+                        </td>
+                    </tr>
+                </table>
+            }
+        </div>
+        <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+        <script src="~/Scripts/jquery.validate.min.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+            <div id="loginfoot-div">
+            <h4>Copyright &copy; 2019 ClothesLine</h4>
+            </div>
+    </div>
+</body>
+
+    
+
+</html>
+
+

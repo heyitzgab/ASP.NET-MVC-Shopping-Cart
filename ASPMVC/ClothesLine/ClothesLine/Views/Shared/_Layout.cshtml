@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body onload="onLoad()">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    <script>
+        function onLoad() {
+            var searchBox = document.getElementById("searchBox");
+            searchBox.addEventListener("keypress", function (e) {
+                var key = e.which || e.keyCode;
+                if (key === 13) {
+                    //doGET(searchBox.value);
+
+                    var data = { searchStr: searchBox.value };
+                    doPOST(data);
+                }
+            });
+        }
+
+        function doGET(str) {
+            window.location.href = window.location.href.split('?')[0] + "?searchStr=" + str
+        }
+
+        function doPOST(data) {
+            var ajax = new XMLHttpRequest();
+            ajax.onreadystatechange = function () {
+                if (ajax.readyState == 4) {
+                    document.open();
+                    document.write(ajax.response);
+                    document.close();
+                }
+            }
+
+            ajax.open("POST", "/Home/Gallery", true);
+            ajax.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+            ajax.send(JSON.stringify(data));
+        }
+    </script>
+</body>
+</html>

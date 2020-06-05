@@ -1,0 +1,11 @@
+﻿
+@{
+    ViewBag.Title = "AddToCart";
+     var history = (string)ViewData["history"];
+}
+
+<h2>AddToCart</h2>
+<h1>Name: @history</h1>
+<form method="post" class="form-horizontal">
+    <input type="submit" formaction="Gallery" />
+    </form>

@@ -1,0 +1,78 @@
+﻿
+@model IEnumerable<ClothesLine.Models.Category>
+
+@{
+    var product = ViewBag.productList;
+    var category = ViewBag.categoryList;
+}
+
+@Html.ActionLink("Continue Shopping", "Gallery", "Home")
+
+@Html.ActionLink("Checkout", "Gallery", "Home")
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+
+<form>
+    <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+            <td rowspan="2"><input type="number" name="number" value="0" style="width:50px;height:23px;font-weight:bold;" min="0" max="9" /></td>
+            <td><input type="button" value=" /\ " onclick="this.form.number.value++;" style="font-size:7px;margin:0;padding:0;width:20px;height:13px;" min="0" max="9"></td>
+        </tr>
+        <tr>
+            <td><input type=button value=" \/ " onclick="this.form.number.value--;" style="font-size:7px;margin:0;padding:0;width:20px;height:12px;" min="0" max="9"></td>
+        </tr>
+    </table>
+</form>
+<table>
+    @{
+
+    foreach (var pro in product)
+    {
+
+        //foreach (var cat in category)
+        // {
+            <tr>
+                <td>
+
+                    @pro.ProductName<br />
+                    <img src="@Url.Content(pro.Picture)" width="50" height="50" /><br />
+                    @pro.Quantity<br />
+                    @pro.UnitPrice<br />
+                    @pro.Discount<br />
+                    @pro.Brand<br />
+
+                </td>
+            </tr>
+        // }
+    }
+    }
+</table>
+@*<script>
+        $('.lblUp').keyup(function () {
+            $('.txtUpDown').val() = (+$('.txtUpDown').val() + 1);
+        });
+        $('.lblDown').keyup(function () {
+            if ($('.txtUpDown').val() > 0) {
+                $('.txtUpDown').val() = (+$('.txtUpDown').val() - 1);
+            }
+        });
+    </script>
+*@
+
+@{ 
+<script src="./src/bootstrap-input-spinner.js"></script>
+<input type="number" value="500" min="0" max="1000" step="10" />
+<script type="text/javascript">
+    $("input[type='number']").inputSpinner()
+
+    var $changedInput = $("#changedInput")
+    var $valueOnInput = $("#valueOnInput")
+    var $valueOnChange = $("#valueOnChange")
+    $changedInput.on("input", function (event) {
+        $valueOnInput.html($changedInput.val())
+    })
+    $changedInput.on("change", function (event) {
+        $valueOnChange.html($changedInput.val())
+    })
+</script>
+    }
